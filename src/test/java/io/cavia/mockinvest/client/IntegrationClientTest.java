@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ApiOAuthManagerTest {
+public class IntegrationClientTest {
 
     @Autowired
     ApiOAuthManager apiOAuthManager;
+    @Autowired
+    RestWebClient restWebClient;
 
     @Test
     void getToken() {
@@ -18,5 +20,10 @@ public class ApiOAuthManagerTest {
     @Test
     void getKey(){
         System.out.println(apiOAuthManager.getApprovalKey());
+    }
+
+    @Test
+    void searchStockInfo(){
+        System.out.println(restWebClient.searchStockInfo("005930"));//삼성전자
     }
 }

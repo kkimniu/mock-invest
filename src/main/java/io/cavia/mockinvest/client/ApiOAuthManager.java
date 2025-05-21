@@ -10,8 +10,12 @@ import java.util.Map;
 
 public class ApiOAuthManager {
     private final WebClient webClient;
+
+    // TODO : 릴리즈 전에 제거해야함. 너무 많은 토큰 발급을 막기 위해 프로퍼티에 토큰을 써놓음
+    @Value("${stock-api.access-token}")
     private String accessToken;
-    private LocalDateTime tokenCreatedAt;
+    // TODO : 마찬가지로 임시로 현재시간으로 생성
+    private LocalDateTime tokenCreatedAt = LocalDateTime.now();
     private String approvalKey;
     private LocalDateTime keyCreatedAt;
 
@@ -21,10 +25,8 @@ public class ApiOAuthManager {
     @Value("${stock-api.appsecret}")
     private String appSecret;
 
-    public ApiOAuthManager(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder
-            .baseUrl("https://openapi.koreainvestment.com:9443")
-            .build();
+    public ApiOAuthManager(WebClient webClient) {
+        this.webClient = webClient;
     }
 
 

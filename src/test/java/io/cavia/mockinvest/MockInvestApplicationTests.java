@@ -1,4 +1,4 @@
-package com.example.mock_invest;
+package io.cavia.mockinvest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

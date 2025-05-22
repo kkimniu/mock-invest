@@ -35,7 +35,7 @@ public class IntegrationClientTest {
     void webSocketConnection() throws InterruptedException {
         webSocketClient.connectToWebSocket();
         Thread.sleep(1000);
-        webSocketClient.sendMessage("hehe");
+        webSocketClient.subscribeWebSocket("005930", "H0STASP0");
         Thread.sleep(20*1000);
         webSocketClient.disconnect();
     }

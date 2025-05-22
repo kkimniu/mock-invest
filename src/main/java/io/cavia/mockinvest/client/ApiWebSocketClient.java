@@ -1,5 +1,7 @@
 package io.cavia.mockinvest.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
@@ -7,6 +9,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketClient;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -15,17 +19,19 @@ public class ApiWebSocketClient {
     private final WebSocketClient webSocketClient;
     private final WebSocketHandler webSocketHandler;
     private WebSocketSession currentSession;
+    private final ApiOAuthManager apiOAuthManager;
 
-    public ApiWebSocketClient(WebSocketClient webSocketClient, WebSocketHandler webSocketHandler) {
+    public ApiWebSocketClient(WebSocketClient webSocketClient, WebSocketHandler webSocketHandler, ApiOAuthManager apiOAuthManager) {
         this.webSocketClient = webSocketClient;
         this.webSocketHandler = webSocketHandler;
+        this.apiOAuthManager = apiOAuthManager;
     }
 
     public void connectToWebSocket() {
         try {
             String STOCK_WEBSOCKET_URI = "ws://ops.koreainvestment.com:31000";
             CompletableFuture<WebSocketSession> completableFutureSession =
-                webSocketClient.execute(webSocketHandler, STOCK_WEBSOCKET_URI);
+                    webSocketClient.execute(webSocketHandler, STOCK_WEBSOCKET_URI);
 
             completableFutureSession.whenComplete((session, ex) -> {
                 if (ex != null) {
@@ -51,7 +57,7 @@ public class ApiWebSocketClient {
     }
 
     // 웹소켓 서버로 메시지를 보내는 예시 메서드
-    public void sendMessage(String message) {
+    private void sendMessage(String message) {
         if (currentSession != null && currentSession.isOpen()) {
             try {
                 System.out.println("서버로 메시지 전송: " + message);
@@ -61,6 +67,34 @@ public class ApiWebSocketClient {
             }
         } else {
             System.err.println("웹소켓이 연결되어 있지 않아 메시지를 보낼 수 없습니다.");
+        }
+    }
+
+    public void subscribeWebSocket(String trKey, String trId) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> messageMap = new HashMap<>();
+
+        // header 객체 구성
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("approval_key", apiOAuthManager.getApprovalKey());
+        headerMap.put("custtype", "P");
+        headerMap.put("tr_type", "1");
+        headerMap.put("content-type", "utf-8");
+        messageMap.put("header", headerMap);
+
+        // body 객체 구성
+        Map<String, Object> bodyMap = new HashMap<>();
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put("tr_id", trId);
+        inputMap.put("tr_key", trKey);
+        bodyMap.put("input", inputMap);
+        messageMap.put("body", bodyMap);
+
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(messageMap);
+            sendMessage(jsonMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON 문자열 변환 중 오류 발생: " + e.getMessage(), e);
         }
     }
 

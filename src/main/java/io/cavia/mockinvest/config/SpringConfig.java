@@ -62,7 +62,7 @@ public class SpringConfig {
 
     @Bean
     public ApiWebSocketClient apiWebSocketClient() {
-        return new ApiWebSocketClient(webSocketClient(), apiWebSocketHandler());
+        return new ApiWebSocketClient(webSocketClient(), apiWebSocketHandler(), apiOAuthManager());
     }
 
     @Bean

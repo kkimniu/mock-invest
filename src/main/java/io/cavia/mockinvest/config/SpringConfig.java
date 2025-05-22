@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringConfig {
-
+    // 병합 해결용
     @Bean
     public KorStockRealTimeMapper korStockRealTimeMapper() {
         return new KorStockRealTimeMapper();

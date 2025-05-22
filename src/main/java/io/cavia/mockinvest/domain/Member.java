@@ -6,16 +6,17 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Member {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String userid;
     @Column(nullable = false)
     private String password;
     private String name;
     private String email;
     private String tel;
-    @Column(updatable = false,insertable = false)
+    @Column(updatable = false, insertable = false)
     private LocalDateTime joindate;
 
     public long getId() {

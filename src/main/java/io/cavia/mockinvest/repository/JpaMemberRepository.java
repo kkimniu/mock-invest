@@ -4,9 +4,10 @@ import io.cavia.mockinvest.domain.Member;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
-public class JpaMemberRepository implements MemberRepository{
+public class JpaMemberRepository implements MemberRepository {
 
     private final EntityManager em;
 
@@ -24,13 +25,23 @@ public class JpaMemberRepository implements MemberRepository{
     }
 
     /**
-     *  회원 아이디 찾는 메소드
+     * 회원 아이디 찾는 메소드
      */
     @Override
     public Optional<String> findByUserid(String userid) {
         return em.createQuery("SELECT m.userid FROM Member m WHERE m.userid = :userid", String.class)
-            .setParameter("userid",userid)
-            .getResultStream()
-            .findFirst();
+                .setParameter("userid", userid)
+                .getResultStream()
+                .findFirst();
+    }
+
+    /**
+     * 모든 회원들 찾는 메소드
+     *
+     * @return
+     */
+    @Override
+    public List<Member> findAll() {
+        return em.createQuery("SELECT m  FROM Member m", Member.class).getResultList();
     }
 }

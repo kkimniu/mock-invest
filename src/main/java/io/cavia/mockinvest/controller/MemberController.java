@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class MemberController {
 
@@ -22,11 +24,12 @@ public class MemberController {
 
     /**
      * get방식으로 사용자에게 회원 가입 페이지를 보여줍니다.
+     *
      * @param model
      * @return
      */
     @GetMapping("/members/join")
-    public String memberJoinForm(Model model){
+    public String memberJoinForm(Model model) {
         model.addAttribute("form", new MemberForm());
         return "members/memberJoinForm";
     }
@@ -34,12 +37,13 @@ public class MemberController {
     /**
      * post방식으로 - 사용자가 가입 폼을 제출하면 회원 정보를 받아서 저장하고,
      * 중복 아이디가 있으면 오류를 반환
+     *
      * @param form
      * @param model
      * @return
      */
     @PostMapping("/members/join")
-    public String memberJoin(@ModelAttribute MemberForm form, Model model){
+    public String memberJoin(@ModelAttribute MemberForm form, Model model) {
         Member member = new Member();
         member.setUserid(form.getUserid());
         member.setName(form.getName());
@@ -49,7 +53,7 @@ public class MemberController {
         try {
             memberService.join(member);
             return "redirect:/";
-        }catch (IllegalStateException i){
+        } catch (IllegalStateException i) {
             model.addAttribute("form", form); // 기존 입력값 유지
             model.addAttribute("password", ""); // 비밀번호만 공백으로 설정
             model.addAttribute("error", "이미 존재하는 회원입니다."); // 에러 메시지 추가
@@ -57,4 +61,10 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/members/list")
+    public String list(Model model) {
+        List<Member> list = memberService.findMembers();
+        model.addAttribute("members", list);
+        return "members/memberList";
+    }
 }

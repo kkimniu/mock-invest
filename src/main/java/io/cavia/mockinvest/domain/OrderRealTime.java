@@ -133,7 +133,7 @@ public class OrderRealTime {
     @Column(name = "antc_cntg_vrss_sign", length = 1, nullable = false)
     private String antcCntgVrssSign;
     @Column(name = "antc_cntg_prdy_ctrt", nullable = false)
-    private Long antcCntgPrdyCtrt;
+    private BigDecimal antcCntgPrdyCtrt;
 
     // 누적 거래량
     @Column(name = "acml_vol", nullable = false)
@@ -163,7 +163,7 @@ public class OrderRealTime {
                          Long bidpRsqn4, Long bidpRsqn5, Long bidpRsqn6, Long bidpRsqn7, Long bidpRsqn8, Long bidpRsqn9,
                          Long bidpRsqn10, Long totalAskpRsqn, Long totalBidpRsqn, Long ovtmTotalAskpRsqn,
                          Long ovtmTotalBidpRsqn, Integer antcCnpr, Long antcCnqn, Long antcVol, Integer antcCntgVrss,
-                         String antcCntgVrssSign, Long antcCntgPrdyCtrt, Long acmlVol, Integer totalAskpRsqnIcdc,
+                         String antcCntgVrssSign, BigDecimal antcCntgPrdyCtrt, Long acmlVol, Integer totalAskpRsqnIcdc,
                          Integer totalBidpRsqnIcdc, Integer ovtmTotalAskpIcdc, Integer ovtmTotalBidpIcdc) {
         this.mkscShrnIscd = mkscShrnIscd;
         this.bsopHour = bsopHour;
@@ -641,11 +641,11 @@ public class OrderRealTime {
         this.antcCntgVrssSign = antcCntgVrssSign;
     }
 
-    public Long getAntcCntgPrdyCtrt() {
+    public BigDecimal getAntcCntgPrdyCtrt() {
         return antcCntgPrdyCtrt;
     }
 
-    public void setAntcCntgPrdyCtrt(Long antcCntgPrdyCtrt) {
+    public void setAntcCntgPrdyCtrt(BigDecimal antcCntgPrdyCtrt) {
         this.antcCntgPrdyCtrt = antcCntgPrdyCtrt;
     }
 

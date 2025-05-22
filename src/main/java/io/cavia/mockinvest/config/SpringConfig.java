@@ -1,21 +1,35 @@
 package io.cavia.mockinvest.config;
 
-import io.cavia.mockinvest.mapper.KorOrderRealTimeMapper;
-import io.cavia.mockinvest.mapper.KorStockRealTimeMapper;
+
+import io.cavia.mockinvest.client.ApiOAuthManager;
+import io.cavia.mockinvest.client.RestWebClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class SpringConfig {
 
-    @Bean
-    public KorStockRealTimeMapper korStockRealTimeMapper() {
-        return new KorStockRealTimeMapper();
+    private final WebClient.Builder webClientBuilder;
+
+    public SpringConfig(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
     }
 
     @Bean
-    public KorOrderRealTimeMapper korOrderRealTimeMapper() {
-        return new KorOrderRealTimeMapper();
+    public WebClient webClient() {
+        return webClientBuilder
+                .baseUrl("https://openapi.koreainvestment.com:9443")
+                .build();
     }
 
+    @Bean
+    public RestWebClient restWebClient() {
+        return new RestWebClient(webClient(), apiOAuthManager());
+    }
+
+    @Bean
+    public ApiOAuthManager apiOAuthManager() {
+        return new ApiOAuthManager(webClient());
+    }
 }

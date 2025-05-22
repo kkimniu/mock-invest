@@ -14,12 +14,12 @@ public class SpringConfig {
 
     @Bean
     public KorStockRealTimeMapper korStockRealTimeMapper() {
-        return Mappers.getMapper(KorStockRealTimeMapper.class);
+        return new KorStockRealTimeMapper();
     }
 
     @Bean
     public KorOrderRealTimeMapper korOrderRealTimeMapper() {
-        return Mappers.getMapper(KorOrderRealTimeMapper.class);
+        return new KorOrderRealTimeMapper();
     }
 
 }

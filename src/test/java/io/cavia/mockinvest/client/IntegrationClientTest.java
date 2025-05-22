@@ -11,6 +11,10 @@ public class IntegrationClientTest {
     ApiOAuthManager apiOAuthManager;
     @Autowired
     RestWebClient restWebClient;
+    @Autowired
+    ApiWebSocketHandler apiWebSocketHandler;
+    @Autowired
+    ApiWebSocketClient webSocketClient;
 
     @Test
     void getToken() {
@@ -25,5 +29,14 @@ public class IntegrationClientTest {
     @Test
     void searchStockInfo(){
         System.out.println(restWebClient.searchStockInfo("005930"));//삼성전자
+    }
+
+    @Test
+    void webSocketConnection() throws InterruptedException {
+        webSocketClient.connectToWebSocket();
+        Thread.sleep(1000);
+        webSocketClient.sendMessage("hehe");
+        Thread.sleep(20*1000);
+        webSocketClient.disconnect();
     }
 }

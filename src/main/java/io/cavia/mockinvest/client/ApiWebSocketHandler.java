@@ -40,7 +40,9 @@ public class ApiWebSocketHandler extends TextWebSocketHandler {
                 System.out.println("추출된 tr_id: " + trId);
 
                 if ("PINGPONG".equals(trId)) {
-                    session.sendMessage(new TextMessage("pong"));
+                    String pong = "pong";
+                    session.sendMessage(new TextMessage(pong));
+                    System.out.println("서버로 메시지 전송 : " + pong);
                 }
             }
             return;

@@ -19,7 +19,6 @@ public class ApiOAuthManager {
 
     private String accessToken;
     private String approvalKey;
-    private LocalDateTime keyCreatedAt;
     private LocalDateTime tokenExpiresIn;
     private LocalDateTime keyExpiresIn;
 
@@ -138,12 +137,49 @@ public class ApiOAuthManager {
      *
      * @return API 웹소켓 접근을 위한 key
      */
+    @Transactional
     public String getApprovalKey() {
-        if (approvalKey == null || LocalDateTime.now().isAfter(keyCreatedAt.plusHours(24))) {
-            System.out.println("접근키가 없거나 발급한지 24시간이 경과함, 새로운 접근키 요청");
-            requestApprovalKey();
+        // 토큰을 갱신해야 하는 기준 시점: 현재 시간으로부터 1시간 후 이전이면 갱신
+        // 즉, 만료까지 1시간 미만으로 남았거나 이미 만료된 경우를 의미합니다.
+        LocalDateTime refreshThreshold = LocalDateTime.now().plusHours(1);
+
+        // 1. 먼저 메모리에 있는 토큰 확인
+        if (this.approvalKey != null && this.keyExpiresIn != null && this.keyExpiresIn.isAfter(refreshThreshold)) {
+            // 메모리에 유효한 토큰이 있고, 만료까지 1시간 이상 남은 경우
+            System.out.println("메모리의 유효한 접근키 사용. 만료 예정: " + this.keyExpiresIn);
+            return this.approvalKey;
         }
-        return approvalKey;
+
+        // 2. 메모리 토큰이 없거나, 만료되었거나, 곧 만료될 예정인 경우 DB 확인
+        if (this.approvalKey == null) {
+            System.out.println("메모리에 접근키 없음. DB에서 로드 시도.");
+        } else {
+            System.out.println("메모리 접근키 만료 또는 만료 임박 (" + this.keyExpiresIn + "). DB에서 로드 시도.");
+        }
+        Map<CredentialType, ApiCredential> map = apiOAuthRepository.findAllByCredentialOwner("0");
+        ApiCredential dbCredential = map.get(CredentialType.APPROVAL_KEY);
+
+        if (dbCredential != null &&
+                dbCredential.getExpiresIn() != null &&
+                dbCredential.getExpiresIn().isAfter(refreshThreshold)) {
+            // DB에 유효한 접근키이 있고, 만료까지 1시간 이상 남은 경우
+            System.out.println("DB에서 유효한 접근키 로드 및 메모리 업데이트. 만료 예정: " + dbCredential.getExpiresIn());
+            this.approvalKey = dbCredential.getCredentialValue();
+            this.keyExpiresIn = dbCredential.getExpiresIn();
+            return this.approvalKey;
+        }
+
+        // 3. 메모리와 DB 모두에 유효한 토큰이 없는 경우: 새 토큰 요청
+        if (dbCredential == null) {
+            System.out.println("DB에도 접근키가 없습니다.");
+        } else { // dbCredential은 있지만 유효하지 않은 경우
+            System.out.println("DB 접근키가 만료되었거나 만료 임박 (" + (dbCredential.getExpiresIn() != null ? dbCredential.getExpiresIn() : "만료시간 정보 없음") + ").");
+        }
+        System.out.println("새 접근키을 요청하고 DB 및 메모리를 업데이트합니다.");
+
+        requestApprovalKey(); // 새 접근키 요청, DB 저장, 메모리 업데이트를 모두 수행하는 메서드
+
+        return this.approvalKey;
     }
 
     private void requestApprovalKey() {
@@ -162,11 +198,16 @@ public class ApiOAuthManager {
                     .block();
 
             if (responseNode != null && responseNode.has("approval_key")) {
-                String newAccessToken = responseNode.get("approval_key").asText(); // 타입 안전하게
-                // 텍스트로 가져옴
-                this.approvalKey = newAccessToken;
-                this.keyCreatedAt = LocalDateTime.now();
-                System.out.println(keyCreatedAt + " 에 새로운 접근키 발급 : " + newAccessToken);
+                // 타입 안전하게 텍스트로 가져옴
+                this.approvalKey = responseNode.get("approval_key").asText();
+                this.keyExpiresIn = LocalDateTime.now().plusHours(24);
+                apiOAuthRepository.save(new ApiCredential(
+                        "0",
+                        CredentialType.APPROVAL_KEY,
+                        this.approvalKey,
+                        this.keyExpiresIn));
+
+                System.out.println(this.keyExpiresIn + " 에 새로운 접근키 발급 : " + this.approvalKey);
 
             } else {
                 throw new RuntimeException("Failed to refresh API key or approval_key not found in response");

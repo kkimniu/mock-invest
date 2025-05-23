@@ -1,26 +1,21 @@
 package io.cavia.mockinvest.config;
 
-import io.cavia.mockinvest.repository.JpaMemberRepository;
-import io.cavia.mockinvest.repository.MemberRepository;
-import io.cavia.mockinvest.scrvice.MemberService;
-import jakarta.persistence.EntityManager;
 import io.cavia.mockinvest.client.ApiOAuthManager;
 import io.cavia.mockinvest.client.ApiWebSocketClient;
 import io.cavia.mockinvest.client.ApiWebSocketHandler;
 import io.cavia.mockinvest.client.RestWebClient;
 import io.cavia.mockinvest.mapper.KorOrderRealTimeMapper;
 import io.cavia.mockinvest.mapper.KorStockRealTimeMapper;
+import io.cavia.mockinvest.repository.ApiOAuthRepository;
+import io.cavia.mockinvest.repository.JpaMemberRepository;
+import io.cavia.mockinvest.repository.MemberRepository;
+import io.cavia.mockinvest.scrvice.MemberService;
+import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketHttpHeaders;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-
-import java.net.URI;
-import java.util.concurrent.CompletableFuture;
 
 @Configuration
 public class SpringConfig {
@@ -73,7 +68,12 @@ public class SpringConfig {
 
     @Bean
     public ApiOAuthManager apiOAuthManager() {
-        return new ApiOAuthManager(webClient());
+        return new ApiOAuthManager(webClient(), apiOAuthRepository());
+    }
+
+    @Bean
+    public ApiOAuthRepository apiOAuthRepository() {
+        return new ApiOAuthRepository(em);
     }
 
     @Bean

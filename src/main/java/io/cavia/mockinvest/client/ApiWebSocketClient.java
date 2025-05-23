@@ -30,6 +30,9 @@ public class ApiWebSocketClient {
         this.apiOAuthManager = apiOAuthManager;
     }
 
+    /**
+     * API 웹소켓에 연결
+     */
     public void connectToWebSocket() {
         try {
             String STOCK_WEBSOCKET_URI = "ws://ops.koreainvestment.com:31000";
@@ -48,6 +51,9 @@ public class ApiWebSocketClient {
         }
     }
 
+    /**
+     * API 웹소켓 연결 해제
+     */
     public void disconnect() {
         if (currentSession != null && currentSession.isOpen()) {
             try {
@@ -58,7 +64,11 @@ public class ApiWebSocketClient {
         }
     }
 
-    // 웹소켓 서버로 메시지를 보내는 예시 메서드
+    /**
+     * 연결된 웹소켓 세션으로 메시지를 전송함. 연결되어 있지 않으면 오류메시지 출력
+     *
+     * @param message API로 전송할 문자열
+     */
     private void sendMessage(String message) {
         if (currentSession != null && currentSession.isOpen()) {
             try {
@@ -72,6 +82,12 @@ public class ApiWebSocketClient {
         }
     }
 
+    /**
+     * 연결된 웹소켓 세션으로 구독 요청함
+     *
+     * @param trKey 주식 고유 번호
+     * @param trId  웹소켓 API ID
+     */
     public void subscribeWebSocket(String trKey, String trId) {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> requestMap = buildSubscriptionRequest(apiOAuthManager.getApprovalKey(),
@@ -85,6 +101,12 @@ public class ApiWebSocketClient {
         }
     }
 
+    /**
+     * 연결된 웹소센 세션으로 구독 해지 요청함
+     *
+     * @param trKey 주식 고유 번호
+     * @param trId  웹소켓 API ID
+     */
     public void unsubscribeWebSocket(String trKey, String trId) {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> requestMap = buildSubscriptionRequest(apiOAuthManager.getApprovalKey(),

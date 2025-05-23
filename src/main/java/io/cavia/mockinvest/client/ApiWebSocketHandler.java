@@ -17,9 +17,16 @@ public class ApiWebSocketHandler extends TextWebSocketHandler {
         System.out.println("웹소켓 서버에 성공적으로 연결되었습니다. 세션 ID: " + session.getId());
     }
 
+    /**
+     * 연결된 웹소켓 세션으로 메시지를 응답받으면 호출되는 메서드
+     * PINGPONG 응답처리, JSON 응답처리, 문자열 데이터 처리를 함(체결가 문자열 데이터 등)
+     *
+     * @param session
+     * @param message
+     * @throws Exception
+     */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // 서버로부터 텍스트 메시지(예: JSON 형태의 체결가 데이터)를 수신했을 때 호출됩니다.
         String receivedData = message.getPayload();
         System.out.println("서버로부터 메시지 수신: " + receivedData);
 

@@ -1,5 +1,6 @@
 package io.cavia.mockinvest.client;
 
+import io.cavia.mockinvest.dto.response.KorStock067Dto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -22,11 +23,11 @@ public class RestWebClient {
      * @param pdno 주식고유번호
      * @return Api 응답 Json 문자열
      */
-    public String searchStockInfo(String pdno) {
+    public KorStock067Dto searchStockInfo(String pdno) {
 
         try {
             String accessToken = apiOAuthManager.getAccessToken();
-            String responseBody = webClient.get()
+            KorStock067Dto korStock067Dto = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                     .path("/uapi/domestic-stock/v1/quotations/search-stock-info")
                     .queryParam("PRDT_TYPE_CD", "300")
@@ -39,9 +40,9 @@ public class RestWebClient {
                 .header("tr_id", "CTPF1002R")
                 .header("custtype", "P")
                 .retrieve() // 요청 보내고, 성공하면 응답 바디를 가져올 준비를 하고, 실패하면 예외를 던짐
-                .bodyToMono(String.class)
+                .bodyToMono(KorStock067Dto.class)
                 .block();
-            return responseBody;
+            return korStock067Dto;
         } catch (WebClientResponseException e) {
             System.out.println("API 호출 중 에러 발생!");
             System.out.println("Status Code: " + e.getStatusCode());

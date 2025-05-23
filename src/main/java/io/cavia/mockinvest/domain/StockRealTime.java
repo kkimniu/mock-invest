@@ -1,68 +1,169 @@
 package io.cavia.mockinvest.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "stock_real_time")
 public class StockRealTime {
 
-    private String mkscShrnIscd;                       // 유가증권 단축 종목코드
-    private String stckCntgHour;                       // 주식 체결 시간
-    private String stckPrpr;                           // 주식 현재가
-    private String prdyVrssSign;                       // 전일 대비 부호
-    private String prdyVrss;                           // 전일 대비
-    private String prdyCtrt;                           // 전일 대비율
-    private String wghnAvrgStckPrc;                    // 가중 평균 주식 가격
-    private String stckOprc;                           // 주식 시가
-    private String stckHgpr;                           // 주식 최고가
-    private String stckLwpr;                           // 주식 최저가
-    private String askp1;                              // 매도호가1
-    private String bidp1;                              // 매수호가1
-    private String cntgVol;                            // 체결 거래량
-    private String acmlVol;                            // 누적 거래량
-    private String acmlTrPbmn;                         // 누적 거래 대금
-    private String selnCntgCsnu;                       // 매도 체결 건수
-    private String shnuCntgCsnu;                       // 매수 체결 건수
-    private String ntbyCntgCsnu;                       // 순매수 체결 건수
-    private String cttr;                               // 체결강도
-    private String selnCntgSmtn;                       // 총 매도 수량
-    private String shnuCntgSmtn;                       // 총 매수 수량
-    private String ccldDvsn;                           // 체결구분
-    private String shnuRate;                           // 매수비율
-    private String prdyVolVrssAcmlVolRate;             // 전일 거래량 대비 등락율
-    private String oprcHour;                           // 시가 시간
-    private String oprcVrssPrprSign;                   // 시가대비구분
-    private String oprcVrssPrpr;                       // 시가대비
-    private String hgprHour;                           // 최고가 시간
-    private String hgprVrssPrprSign;                   // 고가대비구분
-    private String hgprVrssPrpr;                       // 고가대비
-    private String lwprHour;                           // 최저가 시간
-    private String lwprVrssPrprSign;                   // 저가대비구분
-    private String lwprVrssPrpr;                       // 저가대비
-    private String bsopDate;                           // 영업 일자
-    private String newMkopClsCode;                     // 신 장운영 구분 코드
-    private String trhtYn;                             // 거래정지 여부
-    private String askpRsqn1;                          // 매도호가 잔량1
-    private String bidpRsqn1;                          // 매수호가 잔량1
-    private String totalAskpRsqn;                      // 총 매도호가 잔량
-    private String totalBidpRsqn;                      // 총 매수호가 잔량
-    private String volTnrt;                            // 거래량 회전율
-    private String prdySmnsHourAcmlVol;                // 전일 동시간 누적 거래량
-    private String prdySmnsHourAcmlVolRate;            // 전일 동시간 누적 거래량 비율
-    private String hourClsCode;                        // 시간 구분 코드
-    private String mrktTrtmClsCode;                    // 임의종료구분코드
-    private String viStndPrc;
+    @Column(name = "mksc_shrn_iscd", length = 9, nullable = false)
+    private String mkscShrnIscd;
+
+    @Id
+    @Column(name = "stck_cntg_hour", length = 6, nullable = false)
+    private String stckCntgHour;
+
+    @Column(name = "stck_prpr", nullable = false)
+    private Integer stckPrpr;
+
+    @Column(name = "prdy_vrss_sign", length = 1, nullable = false)
+    private String prdyVrssSign;
+
+    @Column(name = "prdy_vrss", nullable = false)
+    private Integer prdyVrss;
+
+    @Column(name = "prdy_ctrt", precision = 8, scale = 2, nullable = false)
+    private BigDecimal prdyCtrt;
+
+    @Column(name = "wghn_avrg_stck_prc", precision = 12, scale = 2, nullable = false)
+    private BigDecimal wghnAvrgStckPrc;
+
+    @Column(name = "stck_oprc", nullable = false)
+    private Integer stckOprc;
+
+    @Column(name = "stck_hgpr", nullable = false)
+    private Integer stckHgpr;
+
+    @Column(name = "stck_lwpr", nullable = false)
+    private Integer stckLwpr;
+
+    @Column(name = "askp1", nullable = false)
+    private Integer askp1;
+
+    @Column(name = "bidp1", nullable = false)
+    private Integer bidp1;
+
+    @Column(name = "cntg_vol", nullable = false)
+    private Long cntgVol;
+
+    @Column(name = "acml_vol", nullable = false)
+    private Long acmlVol;
+
+    @Column(name = "acml_tr_pbmn", nullable = false)
+    private Long acmlTrPbmn;
+
+    @Column(name = "seln_cntg_csnu", nullable = false)
+    private Integer selnCntgCsnu;
+
+    @Column(name = "shnu_cntg_csnu", nullable = false)
+    private Integer shnuCntgCsnu;
+
+    @Column(name = "ntby_cntg_csnu", nullable = false)
+    private Integer ntbyCntgCsnu;
+
+    @Column(name = "cttr", precision = 8, scale = 2, nullable = false)
+    private BigDecimal cttr;
+
+    @Column(name = "seln_cntg_smtn", nullable = false)
+    private Long selnCntgSmtn;
+
+    @Column(name = "shnu_cntg_smtn", nullable = false)
+    private Long shnuCntgSmtn;
+
+    @Column(name = "ccld_dvsn", length = 1, nullable = false)
+    private String ccldDvsn;
+
+    @Column(name = "shnu_rate", precision = 8, scale = 2, nullable = false)
+    private BigDecimal shnuRate;
+
+    @Column(name = "prdy_vol_vrss_acml_vol_rate", precision = 8, scale = 2, nullable = false)
+    private BigDecimal prdyVolVrssAcmlVolRate;
+
+    @Column(name = "oprc_hour", length = 6, nullable = false)
+    private String oprcHour;
+
+    @Column(name = "oprc_vrss_prpr_sign", length = 1, nullable = false)
+    private String oprcVrssPrprSign;
+
+    @Column(name = "oprc_vrss_prpr", nullable = false)
+    private Integer oprcVrssPrpr;
+
+    @Column(name = "hgpr_hour", length = 6, nullable = false)
+    private String hgprHour;
+
+    @Column(name = "hgpr_vrss_prpr_sign", length = 1, nullable = false)
+    private String hgprVrssPrprSign;
+
+    @Column(name = "hgpr_vrss_prpr", nullable = false)
+    private Integer hgprVrssPrpr;
+
+    @Column(name = "lwpr_hour", length = 6, nullable = false)
+    private String lwprHour;
+
+    @Column(name = "lwpr_vrss_prpr_sign", length = 1, nullable = false)
+    private String lwprVrssPrprSign;
+
+    @Column(name = "lwpr_vrss_prpr", nullable = false)
+    private Integer lwprVrssPrpr;
+
+    @Column(name = "bsop_date", length = 8, nullable = false)
+    private String bsopDate;
+
+    @Column(name = "new_mkop_cls_code", length = 2, nullable = false)
+    private String newMkopClsCode;
+
+    @Column(name = "trht_yn", length = 1, nullable = false)
+    private String trhtYn;
+
+    @Column(name = "askp_rsqn1", nullable = false)
+    private Long askpRsqn1;
+
+    @Column(name = "bidp_rsqn1", nullable = false)
+    private Long bidpRsqn1;
+
+    @Column(name = "total_askp_rsqn", nullable = false)
+    private Long totalAskpRsqn;
+
+    @Column(name = "total_bidp_rsqn", nullable = false)
+    private Long totalBidpRsqn;
+
+    @Column(name = "vol_tnrt", precision = 8, scale = 2, nullable = false)
+    private BigDecimal volTnrt;
+
+    @Column(name = "prdy_smns_hour_acml_vol", nullable = false)
+    private Long prdySmnsHourAcmlVol;
+
+    @Column(name = "prdy_smns_hour_acml_vol_rate", precision = 8, scale = 2, nullable = false)
+    private BigDecimal prdySmnsHourAcmlVolRate;
+
+    @Column(name = "hour_cls_code", length = 1, nullable = false)
+    private String hourClsCode;
+
+    @Column(name = "mrkt_trtm_cls_code", length = 1, nullable = false)
+    private String mrktTrtmClsCode;
+
+    @Column(name = "vi_stnd_prc", nullable = false)
+    private Integer viStndPrc;
 
     public StockRealTime() {
     }
 
-    public StockRealTime(String mkscShrnIscd, String stckCntgHour, String stckPrpr, String prdyVrssSign,
-                         String prdyVrss, String prdyCtrt, String wghnAvrgStckPrc, String stckOprc,
-                         String stckHgpr, String stckLwpr, String askp1, String bidp1, String cntgVol,
-                         String acmlVol, String acmlTrPbmn, String selnCntgCsnu, String shnuCntgCsnu,
-                         String ntbyCntgCsnu, String cttr, String selnCntgSmtn, String shnuCntgSmtn,
-                         String ccldDvsn, String shnuRate, String prdyVolVrssAcmlVolRate, String oprcHour,
-                         String oprcVrssPrprSign, String oprcVrssPrpr, String hgprHour, String hgprVrssPrprSign,
-                         String hgprVrssPrpr, String lwprHour, String lwprVrssPrprSign, String lwprVrssPrpr,
-                         String bsopDate, String newMkopClsCode, String trhtYn, String askpRsqn1, String bidpRsqn1,
-                         String totalAskpRsqn, String totalBidpRsqn, String volTnrt, String prdySmnsHourAcmlVol,
-                         String prdySmnsHourAcmlVolRate, String hourClsCode, String mrktTrtmClsCode, String viStndPrc) {
+    public StockRealTime(String mkscShrnIscd, String stckCntgHour, Integer stckPrpr, String prdyVrssSign, Integer prdyVrss,
+                         BigDecimal prdyCtrt, BigDecimal wghnAvrgStckPrc, Integer stckOprc, Integer stckHgpr, Integer stckLwpr,
+                         Integer askp1, Integer bidp1, Long cntgVol, Long acmlVol, Long acmlTrPbmn, Integer selnCntgCsnu,
+                         Integer shnuCntgCsnu, Integer ntbyCntgCsnu, BigDecimal cttr, Long selnCntgSmtn, Long shnuCntgSmtn,
+                         String ccldDvsn, BigDecimal shnuRate, BigDecimal prdyVolVrssAcmlVolRate, String oprcHour,
+                         String oprcVrssPrprSign, Integer oprcVrssPrpr, String hgprHour, String hgprVrssPrprSign,
+                         Integer hgprVrssPrpr, String lwprHour, String lwprVrssPrprSign, Integer lwprVrssPrpr, String bsopDate,
+                         String newMkopClsCode, String trhtYn, Long askpRsqn1, Long bidpRsqn1, Long totalAskpRsqn,
+                         Long totalBidpRsqn, BigDecimal volTnrt, Long prdySmnsHourAcmlVol, BigDecimal prdySmnsHourAcmlVolRate,
+                         String hourClsCode, String mrktTrtmClsCode, Integer viStndPrc) {
+
         this.mkscShrnIscd = mkscShrnIscd;
         this.stckCntgHour = stckCntgHour;
         this.stckPrpr = stckPrpr;
@@ -127,11 +228,11 @@ public class StockRealTime {
         this.stckCntgHour = stckCntgHour;
     }
 
-    public String getStckPrpr() {
+    public Integer getStckPrpr() {
         return stckPrpr;
     }
 
-    public void setStckPrpr(String stckPrpr) {
+    public void setStckPrpr(Integer stckPrpr) {
         this.stckPrpr = stckPrpr;
     }
 
@@ -143,139 +244,139 @@ public class StockRealTime {
         this.prdyVrssSign = prdyVrssSign;
     }
 
-    public String getPrdyVrss() {
+    public Integer getPrdyVrss() {
         return prdyVrss;
     }
 
-    public void setPrdyVrss(String prdyVrss) {
+    public void setPrdyVrss(Integer prdyVrss) {
         this.prdyVrss = prdyVrss;
     }
 
-    public String getPrdyCtrt() {
+    public BigDecimal getPrdyCtrt() {
         return prdyCtrt;
     }
 
-    public void setPrdyCtrt(String prdyCtrt) {
+    public void setPrdyCtrt(BigDecimal prdyCtrt) {
         this.prdyCtrt = prdyCtrt;
     }
 
-    public String getWghnAvrgStckPrc() {
+    public BigDecimal getWghnAvrgStckPrc() {
         return wghnAvrgStckPrc;
     }
 
-    public void setWghnAvrgStckPrc(String wghnAvrgStckPrc) {
+    public void setWghnAvrgStckPrc(BigDecimal wghnAvrgStckPrc) {
         this.wghnAvrgStckPrc = wghnAvrgStckPrc;
     }
 
-    public String getStckOprc() {
+    public Integer getStckOprc() {
         return stckOprc;
     }
 
-    public void setStckOprc(String stckOprc) {
+    public void setStckOprc(Integer stckOprc) {
         this.stckOprc = stckOprc;
     }
 
-    public String getStckHgpr() {
+    public Integer getStckHgpr() {
         return stckHgpr;
     }
 
-    public void setStckHgpr(String stckHgpr) {
+    public void setStckHgpr(Integer stckHgpr) {
         this.stckHgpr = stckHgpr;
     }
 
-    public String getStckLwpr() {
+    public Integer getStckLwpr() {
         return stckLwpr;
     }
 
-    public void setStckLwpr(String stckLwpr) {
+    public void setStckLwpr(Integer stckLwpr) {
         this.stckLwpr = stckLwpr;
     }
 
-    public String getAskp1() {
+    public Integer getAskp1() {
         return askp1;
     }
 
-    public void setAskp1(String askp1) {
+    public void setAskp1(Integer askp1) {
         this.askp1 = askp1;
     }
 
-    public String getBidp1() {
+    public Integer getBidp1() {
         return bidp1;
     }
 
-    public void setBidp1(String bidp1) {
+    public void setBidp1(Integer bidp1) {
         this.bidp1 = bidp1;
     }
 
-    public String getCntgVol() {
+    public Long getCntgVol() {
         return cntgVol;
     }
 
-    public void setCntgVol(String cntgVol) {
+    public void setCntgVol(Long cntgVol) {
         this.cntgVol = cntgVol;
     }
 
-    public String getAcmlVol() {
+    public Long getAcmlVol() {
         return acmlVol;
     }
 
-    public void setAcmlVol(String acmlVol) {
+    public void setAcmlVol(Long acmlVol) {
         this.acmlVol = acmlVol;
     }
 
-    public String getAcmlTrPbmn() {
+    public Long getAcmlTrPbmn() {
         return acmlTrPbmn;
     }
 
-    public void setAcmlTrPbmn(String acmlTrPbmn) {
+    public void setAcmlTrPbmn(Long acmlTrPbmn) {
         this.acmlTrPbmn = acmlTrPbmn;
     }
 
-    public String getSelnCntgCsnu() {
+    public Integer getSelnCntgCsnu() {
         return selnCntgCsnu;
     }
 
-    public void setSelnCntgCsnu(String selnCntgCsnu) {
+    public void setSelnCntgCsnu(Integer selnCntgCsnu) {
         this.selnCntgCsnu = selnCntgCsnu;
     }
 
-    public String getShnuCntgCsnu() {
+    public Integer getShnuCntgCsnu() {
         return shnuCntgCsnu;
     }
 
-    public void setShnuCntgCsnu(String shnuCntgCsnu) {
+    public void setShnuCntgCsnu(Integer shnuCntgCsnu) {
         this.shnuCntgCsnu = shnuCntgCsnu;
     }
 
-    public String getNtbyCntgCsnu() {
+    public Integer getNtbyCntgCsnu() {
         return ntbyCntgCsnu;
     }
 
-    public void setNtbyCntgCsnu(String ntbyCntgCsnu) {
+    public void setNtbyCntgCsnu(Integer ntbyCntgCsnu) {
         this.ntbyCntgCsnu = ntbyCntgCsnu;
     }
 
-    public String getCttr() {
+    public BigDecimal getCttr() {
         return cttr;
     }
 
-    public void setCttr(String cttr) {
+    public void setCttr(BigDecimal cttr) {
         this.cttr = cttr;
     }
 
-    public String getSelnCntgSmtn() {
+    public Long getSelnCntgSmtn() {
         return selnCntgSmtn;
     }
 
-    public void setSelnCntgSmtn(String selnCntgSmtn) {
+    public void setSelnCntgSmtn(Long selnCntgSmtn) {
         this.selnCntgSmtn = selnCntgSmtn;
     }
 
-    public String getShnuCntgSmtn() {
+    public Long getShnuCntgSmtn() {
         return shnuCntgSmtn;
     }
 
-    public void setShnuCntgSmtn(String shnuCntgSmtn) {
+    public void setShnuCntgSmtn(Long shnuCntgSmtn) {
         this.shnuCntgSmtn = shnuCntgSmtn;
     }
 
@@ -287,19 +388,19 @@ public class StockRealTime {
         this.ccldDvsn = ccldDvsn;
     }
 
-    public String getShnuRate() {
+    public BigDecimal getShnuRate() {
         return shnuRate;
     }
 
-    public void setShnuRate(String shnuRate) {
+    public void setShnuRate(BigDecimal shnuRate) {
         this.shnuRate = shnuRate;
     }
 
-    public String getPrdyVolVrssAcmlVolRate() {
+    public BigDecimal getPrdyVolVrssAcmlVolRate() {
         return prdyVolVrssAcmlVolRate;
     }
 
-    public void setPrdyVolVrssAcmlVolRate(String prdyVolVrssAcmlVolRate) {
+    public void setPrdyVolVrssAcmlVolRate(BigDecimal prdyVolVrssAcmlVolRate) {
         this.prdyVolVrssAcmlVolRate = prdyVolVrssAcmlVolRate;
     }
 
@@ -319,11 +420,11 @@ public class StockRealTime {
         this.oprcVrssPrprSign = oprcVrssPrprSign;
     }
 
-    public String getOprcVrssPrpr() {
+    public Integer getOprcVrssPrpr() {
         return oprcVrssPrpr;
     }
 
-    public void setOprcVrssPrpr(String oprcVrssPrpr) {
+    public void setOprcVrssPrpr(Integer oprcVrssPrpr) {
         this.oprcVrssPrpr = oprcVrssPrpr;
     }
 
@@ -343,11 +444,11 @@ public class StockRealTime {
         this.hgprVrssPrprSign = hgprVrssPrprSign;
     }
 
-    public String getHgprVrssPrpr() {
+    public Integer getHgprVrssPrpr() {
         return hgprVrssPrpr;
     }
 
-    public void setHgprVrssPrpr(String hgprVrssPrpr) {
+    public void setHgprVrssPrpr(Integer hgprVrssPrpr) {
         this.hgprVrssPrpr = hgprVrssPrpr;
     }
 
@@ -367,11 +468,11 @@ public class StockRealTime {
         this.lwprVrssPrprSign = lwprVrssPrprSign;
     }
 
-    public String getLwprVrssPrpr() {
+    public Integer getLwprVrssPrpr() {
         return lwprVrssPrpr;
     }
 
-    public void setLwprVrssPrpr(String lwprVrssPrpr) {
+    public void setLwprVrssPrpr(Integer lwprVrssPrpr) {
         this.lwprVrssPrpr = lwprVrssPrpr;
     }
 
@@ -399,59 +500,59 @@ public class StockRealTime {
         this.trhtYn = trhtYn;
     }
 
-    public String getAskpRsqn1() {
+    public Long getAskpRsqn1() {
         return askpRsqn1;
     }
 
-    public void setAskpRsqn1(String askpRsqn1) {
+    public void setAskpRsqn1(Long askpRsqn1) {
         this.askpRsqn1 = askpRsqn1;
     }
 
-    public String getBidpRsqn1() {
+    public Long getBidpRsqn1() {
         return bidpRsqn1;
     }
 
-    public void setBidpRsqn1(String bidpRsqn1) {
+    public void setBidpRsqn1(Long bidpRsqn1) {
         this.bidpRsqn1 = bidpRsqn1;
     }
 
-    public String getTotalAskpRsqn() {
+    public Long getTotalAskpRsqn() {
         return totalAskpRsqn;
     }
 
-    public void setTotalAskpRsqn(String totalAskpRsqn) {
+    public void setTotalAskpRsqn(Long totalAskpRsqn) {
         this.totalAskpRsqn = totalAskpRsqn;
     }
 
-    public String getTotalBidpRsqn() {
+    public Long getTotalBidpRsqn() {
         return totalBidpRsqn;
     }
 
-    public void setTotalBidpRsqn(String totalBidpRsqn) {
+    public void setTotalBidpRsqn(Long totalBidpRsqn) {
         this.totalBidpRsqn = totalBidpRsqn;
     }
 
-    public String getVolTnrt() {
+    public BigDecimal getVolTnrt() {
         return volTnrt;
     }
 
-    public void setVolTnrt(String volTnrt) {
+    public void setVolTnrt(BigDecimal volTnrt) {
         this.volTnrt = volTnrt;
     }
 
-    public String getPrdySmnsHourAcmlVol() {
+    public Long getPrdySmnsHourAcmlVol() {
         return prdySmnsHourAcmlVol;
     }
 
-    public void setPrdySmnsHourAcmlVol(String prdySmnsHourAcmlVol) {
+    public void setPrdySmnsHourAcmlVol(Long prdySmnsHourAcmlVol) {
         this.prdySmnsHourAcmlVol = prdySmnsHourAcmlVol;
     }
 
-    public String getPrdySmnsHourAcmlVolRate() {
+    public BigDecimal getPrdySmnsHourAcmlVolRate() {
         return prdySmnsHourAcmlVolRate;
     }
 
-    public void setPrdySmnsHourAcmlVolRate(String prdySmnsHourAcmlVolRate) {
+    public void setPrdySmnsHourAcmlVolRate(BigDecimal prdySmnsHourAcmlVolRate) {
         this.prdySmnsHourAcmlVolRate = prdySmnsHourAcmlVolRate;
     }
 
@@ -471,13 +572,12 @@ public class StockRealTime {
         this.mrktTrtmClsCode = mrktTrtmClsCode;
     }
 
-    public String getViStndPrc() {
+    public Integer getViStndPrc() {
         return viStndPrc;
     }
 
-    public void setViStndPrc(String viStndPrc) {
+    public void setViStndPrc(Integer viStndPrc) {
         this.viStndPrc = viStndPrc;
     }
-
-
 }
+

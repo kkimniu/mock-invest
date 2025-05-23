@@ -1,17 +1,23 @@
 package io.cavia.mockinvest.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class KorStock067Output {
+
+    @JsonProperty("pdno")
     private String pdno;
-    private String prdt_name;
-    private String std_idst_clsf_cd_name;
+    @JsonProperty("prdt_name")
+    private String prdtName;
+    @JsonProperty("std_idst_clsf_cd_name")
+    private String stdIdstClsfCdName;
 
     public KorStock067Output() {
     }
 
     public KorStock067Output(String pdno, String prdt_name, String std_idst_clsf_cd_name) {
         this.pdno = pdno;
-        this.prdt_name = prdt_name;
-        this.std_idst_clsf_cd_name = std_idst_clsf_cd_name;
+        this.prdtName = prdt_name;
+        this.stdIdstClsfCdName = std_idst_clsf_cd_name;
     }
 
     public String getPdno() {
@@ -22,19 +28,28 @@ public class KorStock067Output {
         this.pdno = pdno;
     }
 
-    public String getPrdt_name() {
-        return prdt_name;
+    public String getPrdtName() {
+        return prdtName;
     }
 
-    public void setPrdt_name(String prdt_name) {
-        this.prdt_name = prdt_name;
+    public void setPrdtName(String prdtName) {
+        this.prdtName = prdtName;
     }
 
-    public String getStd_idst_clsf_cd_name() {
-        return std_idst_clsf_cd_name;
+    public String getStdIdstClsfCdName() {
+        return stdIdstClsfCdName;
     }
 
-    public void setStd_idst_clsf_cd_name(String std_idst_clsf_cd_name) {
-        this.std_idst_clsf_cd_name = std_idst_clsf_cd_name;
+    public void setStdIdstClsfCdName(String stdIdstClsfCdName) {
+        this.stdIdstClsfCdName = stdIdstClsfCdName;
+    }
+
+    @Override
+    public String toString() {
+        return "KorStock067Output{" +
+            "pdno='" + pdno + '\'' +
+            ", prdt_name='" + prdtName + '\'' +
+            ", std_idst_clsf_cd_name='" + stdIdstClsfCdName + '\'' +
+            '}';
     }
 }

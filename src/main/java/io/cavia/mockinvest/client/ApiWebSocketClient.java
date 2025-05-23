@@ -2,7 +2,6 @@ package io.cavia.mockinvest.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,13 +12,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-@Service
 public class ApiWebSocketClient {
 
     private final WebSocketClient webSocketClient;
     private final WebSocketHandler webSocketHandler;
     private WebSocketSession currentSession;
     private final ApiOAuthManager apiOAuthManager;
+
+    public static final String TR_ID_EXECUTION_PRICE = "H0STCNT0";
+    public static final String TR_ID_QUOTED_PRICE = "H0STASP0";
+    public static final String TR_TYPE_SUBSCRIPTION = "1";
+    public static final String TR_TYPE_UNSUBSCRIPTION = "2";
 
     public ApiWebSocketClient(WebSocketClient webSocketClient, WebSocketHandler webSocketHandler, ApiOAuthManager apiOAuthManager) {
         this.webSocketClient = webSocketClient;
@@ -30,8 +33,7 @@ public class ApiWebSocketClient {
     public void connectToWebSocket() {
         try {
             String STOCK_WEBSOCKET_URI = "ws://ops.koreainvestment.com:31000";
-            CompletableFuture<WebSocketSession> completableFutureSession =
-                    webSocketClient.execute(webSocketHandler, STOCK_WEBSOCKET_URI);
+            CompletableFuture<WebSocketSession> completableFutureSession = webSocketClient.execute(webSocketHandler, STOCK_WEBSOCKET_URI);
 
             completableFutureSession.whenComplete((session, ex) -> {
                 if (ex != null) {
@@ -72,30 +74,48 @@ public class ApiWebSocketClient {
 
     public void subscribeWebSocket(String trKey, String trId) {
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> messageMap = new HashMap<>();
+        Map<String, Object> requestMap = buildSubscriptionRequest(apiOAuthManager.getApprovalKey(),
+                TR_TYPE_SUBSCRIPTION, trKey, trId);
 
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(requestMap);
+            sendMessage(jsonMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON 문자열 변환 중 오류 발생: " + e.getMessage(), e);
+        }
+    }
+
+    public void unsubscribeWebSocket(String trKey, String trId) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> requestMap = buildSubscriptionRequest(apiOAuthManager.getApprovalKey(),
+                TR_TYPE_UNSUBSCRIPTION, trKey, trId);
+
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(requestMap);
+            sendMessage(jsonMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON 문자열 변환 중 오류 발생: " + e.getMessage(), e);
+        }
+    }
+
+    private Map<String, Object> buildSubscriptionRequest(String approvalKey, String trType, String trKey, String trId) {
+        Map<String, Object> requestMap = new HashMap<>();
         // header 객체 구성
         Map<String, String> headerMap = new HashMap<>();
-        headerMap.put("approval_key", apiOAuthManager.getApprovalKey());
+        headerMap.put("approval_key", approvalKey);
         headerMap.put("custtype", "P");
-        headerMap.put("tr_type", "1");
+        headerMap.put("tr_type", trType);
         headerMap.put("content-type", "utf-8");
-        messageMap.put("header", headerMap);
-
+        requestMap.put("header", headerMap);
         // body 객체 구성
         Map<String, Object> bodyMap = new HashMap<>();
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put("tr_id", trId);
         inputMap.put("tr_key", trKey);
         bodyMap.put("input", inputMap);
-        messageMap.put("body", bodyMap);
+        requestMap.put("body", bodyMap);
 
-        try {
-            String jsonMessage = objectMapper.writeValueAsString(messageMap);
-            sendMessage(jsonMessage);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("JSON 문자열 변환 중 오류 발생: " + e.getMessage(), e);
-        }
+        return requestMap;
     }
 
 }

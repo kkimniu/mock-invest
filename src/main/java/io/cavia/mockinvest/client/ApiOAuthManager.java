@@ -41,7 +41,6 @@ public class ApiOAuthManager {
             System.out.println("토큰이 없거나 발급한지 6시간이 경과함, 새로운 토큰 요청");
             requestAccessToken();
         }
-        System.out.println(tokenCreatedAt + " 에 생성된 토큰 반환 : " + accessToken.substring(0, 10) + "...");
         return accessToken;
     }
 
@@ -91,7 +90,6 @@ public class ApiOAuthManager {
             System.out.println("접근키가 없거나 발급한지 24시간이 경과함, 새로운 접근키 요청");
             requestApprovalKey();
         }
-        System.out.println(keyCreatedAt + " 에 생성된 접근키 반환 : " + approvalKey.substring(0, 10) + "...");
         return approvalKey;
     }
 

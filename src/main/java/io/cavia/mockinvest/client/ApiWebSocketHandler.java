@@ -1,7 +1,5 @@
 package io.cavia.mockinvest.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.socket.CloseStatus;
@@ -9,11 +7,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.Map;
-
 public class ApiWebSocketHandler extends TextWebSocketHandler {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -27,15 +23,18 @@ public class ApiWebSocketHandler extends TextWebSocketHandler {
         String receivedData = message.getPayload();
         System.out.println("서버로부터 메시지 수신: " + receivedData);
 
-        JsonNode rootNode = objectMapper.readTree(receivedData);
-        JsonNode headerNode = rootNode.path("header");
-        String trId = "";
+        if (receivedData.startsWith("{") && receivedData.endsWith("}")) {
+            JsonNode rootNode = objectMapper.readTree(receivedData);
+            JsonNode headerNode = rootNode.path("header");
+            String trId = "";
 
-        if (!headerNode.isMissingNode()) { // "header" 필드가 존재하는지 확인
-            trId = headerNode.path("tr_id").asText(); // "tr_id" 값을 텍스트로 가져옵니다. 없으면 빈 문자열.
-            System.out.println("추출된 tr_id: " + trId);
-            if ("PINGPONG".equals(trId)) {
-                session.sendMessage(new TextMessage("pong"));
+            if (!headerNode.isMissingNode()) { // "header" 필드가 존재하는지 확인
+                trId = headerNode.path("tr_id").asText(); // "tr_id" 값을 텍스트로 가져옵니다. 없으면 빈 문자열.
+                System.out.println("추출된 tr_id: " + trId);
+
+                if ("PINGPONG".equals(trId)) {
+                    session.sendMessage(new TextMessage("pong"));
+                }
             }
             return;
         }

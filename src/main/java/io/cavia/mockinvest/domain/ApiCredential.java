@@ -11,35 +11,48 @@ public class ApiCredential {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "credential_owner", nullable = false)
+    @Column(nullable = false, length = 50)
     private String credentialOwner;
 
-    @Column(name = "credential_type", nullable = false)
-    private String credentialType;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private CredentialType credentialType;
 
-    @Column(name = "credential_value", nullable = false, length = 500)
+    @Column(nullable = false, length = 500)
     private String credentialValue;
 
-    @Column(name = "expires_in", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime expiresIn;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     public ApiCredential() {
     }
 
-    public ApiCredential(Long id, String credentialOwner, String credentialType, String credentialValue, LocalDateTime expiresIn, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    public ApiCredential(String credentialOwner, CredentialType credentialType,
+                         String credentialValue, LocalDateTime expiresIn) {
         this.credentialOwner = credentialOwner;
         this.credentialType = credentialType;
         this.credentialValue = credentialValue;
         this.expiresIn = expiresIn;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    }
+
+    // 엔티티가 최초로 저장될때 적용되는 JPA 생명주기 콜백
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now; // 생성 시에는 createdAt과 updatedAt을 동일하게 설정
+    }
+
+    // 엔티티가 수정될때 적용되는 JPA 생명주기 콜백
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -58,11 +71,11 @@ public class ApiCredential {
         this.credentialOwner = credentialOwner;
     }
 
-    public String getCredentialType() {
+    public CredentialType getCredentialType() {
         return credentialType;
     }
 
-    public void setCredentialType(String credentialType) {
+    public void setCredentialType(CredentialType credentialType) {
         this.credentialType = credentialType;
     }
 
@@ -103,7 +116,7 @@ public class ApiCredential {
         return "ApiCredential{" +
             "id=" + id +
             ", credentialOwner='" + credentialOwner + '\'' +
-            ", credentialType='" + credentialType + '\'' +
+            ", credentialType=" + credentialType +
             ", credentialValue='" + credentialValue + '\'' +
             ", expiresIn=" + expiresIn +
             ", createdAt=" + createdAt +

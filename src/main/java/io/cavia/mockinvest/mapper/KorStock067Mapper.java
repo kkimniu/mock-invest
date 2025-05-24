@@ -1,9 +1,9 @@
 package io.cavia.mockinvest.mapper;
 
 import io.cavia.mockinvest.domain.Stock;
-import io.cavia.mockinvest.dto.response.KorStock067Output;
+import io.cavia.mockinvest.dto.response.StockDtoOutput;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface KorStock067Mapper {
@@ -12,5 +12,7 @@ public interface KorStock067Mapper {
      * @param output
      * @return
      */
-    Stock toStock(KorStock067Output output);
+    Stock toStock(StockDtoOutput output);
+
+    Stock toStock(StockDtoOutput output, @MappingTarget Stock stock);
 }

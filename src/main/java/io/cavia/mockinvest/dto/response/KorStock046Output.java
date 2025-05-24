@@ -1,9 +1,14 @@
 package io.cavia.mockinvest.dto.response;
 
-public class KorStock046Output {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class KorStock046Output implements StockDtoOutput {
+
+    @JsonProperty("frgn_fake_ntby_qty")
     private String frgnFakeNtbyQty;
+    @JsonProperty("orgn_fake_ntby_qty")
     private String orgnFakeNtbyQty;
+    @JsonProperty("sum_fake_ntby_qty")
     private String sumFakeNtbyQty;
 
     public KorStock046Output() {

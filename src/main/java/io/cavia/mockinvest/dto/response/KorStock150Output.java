@@ -1,6 +1,6 @@
 package io.cavia.mockinvest.dto.response;
 
-public class KorStock150Output {
+public class KorStock150Output implements StockDtoOutput {
 
     private String totIssueStkQty;
     private String listDt;

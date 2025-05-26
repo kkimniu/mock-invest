@@ -1,6 +1,6 @@
 package io.cavia.mockinvest.dto.response;
 
-public class KorIndeustry065Output {
+public class KorIndeustry065Output implements StockDtoOutput {
 
     private String bstpNmixPrpr;
 

@@ -2,7 +2,7 @@ package io.cavia.mockinvest.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class KorIndeustry065Dto {
+public class KorIndeustry065Dto{
     /**
      * 국내업종 일자별 지수Dto입니다
      */

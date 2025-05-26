@@ -1,6 +1,6 @@
 package io.cavia.mockinvest.dto.response;
 
-public class KorMarketNow074Output {
+public class KorMarketNow074Output implements StockDtoOutput {
 
     // ------ 외국인 ------
     private String frgnSelnVol;        // 외국인 매도 거래량

@@ -2,7 +2,7 @@ package io.cavia.mockinvest.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class KorStock067Output {
+public class KorStock067Output implements StockDtoOutput {
 
     @JsonProperty("pdno")
     private String pdno;

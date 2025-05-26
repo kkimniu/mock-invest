@@ -9,7 +9,7 @@ import io.cavia.mockinvest.mapper.KorStockRealTimeMapper;
 import io.cavia.mockinvest.repository.ApiOAuthRepository;
 import io.cavia.mockinvest.repository.JpaMemberRepository;
 import io.cavia.mockinvest.repository.MemberRepository;
-import io.cavia.mockinvest.scrvice.MemberService;
+import io.cavia.mockinvest.service.MemberService;
 import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package io.cavia.mockinvest.scrvice;
+package io.cavia.mockinvest.service;
 
 import io.cavia.mockinvest.domain.Member;
 import io.cavia.mockinvest.repository.MemberRepository;

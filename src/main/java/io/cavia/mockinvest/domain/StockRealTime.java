@@ -1,9 +1,6 @@
 package io.cavia.mockinvest.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
@@ -11,17 +8,20 @@ import java.math.BigDecimal;
 @Table(name = "stock_real_time")
 public class StockRealTime {
 
+    @Id @GeneratedValue
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "mksc_shrn_iscd", length = 9, nullable = false)
     private String mkscShrnIscd;
 
-    @Id
     @Column(name = "stck_cntg_hour", length = 6, nullable = false)
     private String stckCntgHour;
 
     @Column(name = "stck_prpr", nullable = false)
     private Integer stckPrpr;
 
-    @Column(name = "prdy_vrss_sign", length = 1, nullable = false)
+    @Column(name = "prdy_vrss_sign", length = 50, nullable = false)
     private String prdyVrssSign;
 
     @Column(name = "prdy_vrss", nullable = false)
@@ -75,7 +75,7 @@ public class StockRealTime {
     @Column(name = "shnu_cntg_smtn", nullable = false)
     private Long shnuCntgSmtn;
 
-    @Column(name = "ccld_dvsn", length = 1, nullable = false)
+    @Column(name = "ccld_dvsn", length = 50, nullable = false)
     private String ccldDvsn;
 
     @Column(name = "shnu_rate", precision = 8, scale = 2, nullable = false)
@@ -87,7 +87,7 @@ public class StockRealTime {
     @Column(name = "oprc_hour", length = 6, nullable = false)
     private String oprcHour;
 
-    @Column(name = "oprc_vrss_prpr_sign", length = 1, nullable = false)
+    @Column(name = "oprc_vrss_prpr_sign", length = 50, nullable = false)
     private String oprcVrssPrprSign;
 
     @Column(name = "oprc_vrss_prpr", nullable = false)
@@ -96,7 +96,7 @@ public class StockRealTime {
     @Column(name = "hgpr_hour", length = 6, nullable = false)
     private String hgprHour;
 
-    @Column(name = "hgpr_vrss_prpr_sign", length = 1, nullable = false)
+    @Column(name = "hgpr_vrss_prpr_sign", length = 50, nullable = false)
     private String hgprVrssPrprSign;
 
     @Column(name = "hgpr_vrss_prpr", nullable = false)
@@ -105,7 +105,7 @@ public class StockRealTime {
     @Column(name = "lwpr_hour", length = 6, nullable = false)
     private String lwprHour;
 
-    @Column(name = "lwpr_vrss_prpr_sign", length = 1, nullable = false)
+    @Column(name = "lwpr_vrss_prpr_sign", length = 50, nullable = false)
     private String lwprVrssPrprSign;
 
     @Column(name = "lwpr_vrss_prpr", nullable = false)
@@ -114,10 +114,10 @@ public class StockRealTime {
     @Column(name = "bsop_date", length = 8, nullable = false)
     private String bsopDate;
 
-    @Column(name = "new_mkop_cls_code", length = 2, nullable = false)
+    @Column(name = "new_mkop_cls_code", length = 50, nullable = false)
     private String newMkopClsCode;
 
-    @Column(name = "trht_yn", length = 1, nullable = false)
+    @Column(name = "trht_yn", length = 50, nullable = false)
     private String trhtYn;
 
     @Column(name = "askp_rsqn1", nullable = false)
@@ -141,10 +141,10 @@ public class StockRealTime {
     @Column(name = "prdy_smns_hour_acml_vol_rate", precision = 8, scale = 2, nullable = false)
     private BigDecimal prdySmnsHourAcmlVolRate;
 
-    @Column(name = "hour_cls_code", length = 1, nullable = false)
+    @Column(name = "hour_cls_code", length = 50, nullable = false)
     private String hourClsCode;
 
-    @Column(name = "mrkt_trtm_cls_code", length = 1, nullable = false)
+    @Column(name = "mrkt_trtm_cls_code", length = 50, nullable = false)
     private String mrktTrtmClsCode;
 
     @Column(name = "vi_stnd_prc", nullable = false)
@@ -578,6 +578,58 @@ public class StockRealTime {
 
     public void setViStndPrc(Integer viStndPrc) {
         this.viStndPrc = viStndPrc;
+    }
+
+    @Override
+    public String toString() {
+        return "StockRealTime{" +
+            "mkscShrnIscd='" + mkscShrnIscd + '\'' +
+            ", stckCntgHour='" + stckCntgHour + '\'' +
+            ", stckPrpr=" + stckPrpr +
+            ", prdyVrssSign='" + prdyVrssSign + '\'' +
+            ", prdyVrss=" + prdyVrss +
+            ", prdyCtrt=" + prdyCtrt +
+            ", wghnAvrgStckPrc=" + wghnAvrgStckPrc +
+            ", stckOprc=" + stckOprc +
+            ", stckHgpr=" + stckHgpr +
+            ", stckLwpr=" + stckLwpr +
+            ", askp1=" + askp1 +
+            ", bidp1=" + bidp1 +
+            ", cntgVol=" + cntgVol +
+            ", acmlVol=" + acmlVol +
+            ", acmlTrPbmn=" + acmlTrPbmn +
+            ", selnCntgCsnu=" + selnCntgCsnu +
+            ", shnuCntgCsnu=" + shnuCntgCsnu +
+            ", ntbyCntgCsnu=" + ntbyCntgCsnu +
+            ", cttr=" + cttr +
+            ", selnCntgSmtn=" + selnCntgSmtn +
+            ", shnuCntgSmtn=" + shnuCntgSmtn +
+            ", ccldDvsn='" + ccldDvsn + '\'' +
+            ", shnuRate=" + shnuRate +
+            ", prdyVolVrssAcmlVolRate=" + prdyVolVrssAcmlVolRate +
+            ", oprcHour='" + oprcHour + '\'' +
+            ", oprcVrssPrprSign='" + oprcVrssPrprSign + '\'' +
+            ", oprcVrssPrpr=" + oprcVrssPrpr +
+            ", hgprHour='" + hgprHour + '\'' +
+            ", hgprVrssPrprSign='" + hgprVrssPrprSign + '\'' +
+            ", hgprVrssPrpr=" + hgprVrssPrpr +
+            ", lwprHour='" + lwprHour + '\'' +
+            ", lwprVrssPrprSign='" + lwprVrssPrprSign + '\'' +
+            ", lwprVrssPrpr=" + lwprVrssPrpr +
+            ", bsopDate='" + bsopDate + '\'' +
+            ", newMkopClsCode='" + newMkopClsCode + '\'' +
+            ", trhtYn='" + trhtYn + '\'' +
+            ", askpRsqn1=" + askpRsqn1 +
+            ", bidpRsqn1=" + bidpRsqn1 +
+            ", totalAskpRsqn=" + totalAskpRsqn +
+            ", totalBidpRsqn=" + totalBidpRsqn +
+            ", volTnrt=" + volTnrt +
+            ", prdySmnsHourAcmlVol=" + prdySmnsHourAcmlVol +
+            ", prdySmnsHourAcmlVolRate=" + prdySmnsHourAcmlVolRate +
+            ", hourClsCode='" + hourClsCode + '\'' +
+            ", mrktTrtmClsCode='" + mrktTrtmClsCode + '\'' +
+            ", viStndPrc=" + viStndPrc +
+            '}';
     }
 }
 

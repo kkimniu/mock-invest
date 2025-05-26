@@ -30,8 +30,8 @@ public class Stock {
     private String prdtName;
     @Column(name = "std_idst_cd_name")
     private String stdIdstCdName;
-    @Column(name = "std_idst_clsf_cd")
-    private String stdIdstClsfCd;
+    @Column(name = "std_idst_clsf_cd_name")
+    private String stdIdstClsfCdName;
     @Column(name = "tot_issue_stk_qty")
     private Long totIssueStkQty;
     @Column(name = "list_dt")
@@ -44,6 +44,13 @@ public class Stock {
     private BigDecimal stkDiviRate;
     @Column(name = "divi_pay_dt")
     private String diviPayDt;
+    @Column(name = "frgn_fake_ntby_qty")
+    private String frgnFakeNtbyQty;
+    @Column(name = "orgn_fake_ntby_qty")
+    private String orgnFakeNtbyQty;
+    @Column(name = "sum_fake_ntby_qty")
+    private String sumFakeNtbyQty;
+
 
     public Stock() {
     }
@@ -80,12 +87,12 @@ public class Stock {
         this.stdIdstCdName = stdIdstCdName;
     }
 
-    public String getStdIdstClsfCd() {
-        return stdIdstClsfCd;
+    public String getStdIdstClsfCdName() {
+        return stdIdstClsfCdName;
     }
 
-    public void setStdIdstClsfCd(String stdIdstClsfCd) {
-        this.stdIdstClsfCd = stdIdstClsfCd;
+    public void setStdIdstClsfCdName(String stdIdstClsfCd) {
+        this.stdIdstClsfCdName = stdIdstClsfCd;
     }
 
     public Long getTotIssueStkQty() {
@@ -136,6 +143,30 @@ public class Stock {
         this.diviPayDt = diviPayDt;
     }
 
+    public String getFrgnFakeNtbyQty() {
+        return frgnFakeNtbyQty;
+    }
+
+    public void setFrgnFakeNtbyQty(String frgnFakeNtbyQty) {
+        this.frgnFakeNtbyQty = frgnFakeNtbyQty;
+    }
+
+    public String getOrgnFakeNtbyQty() {
+        return orgnFakeNtbyQty;
+    }
+
+    public void setOrgnFakeNtbyQty(String orgnFakeNtbyQty) {
+        this.orgnFakeNtbyQty = orgnFakeNtbyQty;
+    }
+
+    public String getSumFakeNtbyQty() {
+        return sumFakeNtbyQty;
+    }
+
+    public void setSumFakeNtbyQty(String sumFakeNtbyQty) {
+        this.sumFakeNtbyQty = sumFakeNtbyQty;
+    }
+
     @Override
     public String toString() {
         return "Stock{" +
@@ -143,13 +174,16 @@ public class Stock {
             ", pdno='" + pdno + '\'' +
             ", prdtName='" + prdtName + '\'' +
             ", stdIdstCdName='" + stdIdstCdName + '\'' +
-            ", stdIdstClsfCd='" + stdIdstClsfCd + '\'' +
+            ", stdIdstClsfCd='" + stdIdstClsfCdName + '\'' +
             ", totIssueStkQty=" + totIssueStkQty +
             ", listDt='" + listDt + '\'' +
             ", diviKind='" + diviKind + '\'' +
             ", diviRate=" + diviRate +
             ", stkDiviRate=" + stkDiviRate +
             ", diviPayDt='" + diviPayDt + '\'' +
+            ", frgnFakeNtbyQty='" + frgnFakeNtbyQty + '\'' +
+            ", orgnFakeNtbyQty='" + orgnFakeNtbyQty + '\'' +
+            ", sumFakeNtbyQty='" + sumFakeNtbyQty + '\'' +
             '}';
     }
 }

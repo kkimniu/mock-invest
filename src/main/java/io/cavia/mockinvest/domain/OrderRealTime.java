@@ -1,20 +1,20 @@
 package io.cavia.mockinvest.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_real_time")
 public class OrderRealTime {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "mksc_shrn_iscd", length = 9, nullable = false)
     private String mkscShrnIscd;
 
-    @Id
     @Column(name = "bsop_hour", length = 6, nullable = false)
     private String bsopHour;
 
@@ -223,6 +223,14 @@ public class OrderRealTime {
         this.totalBidpRsqnIcdc = totalBidpRsqnIcdc;
         this.ovtmTotalAskpIcdc = ovtmTotalAskpIcdc;
         this.ovtmTotalBidpIcdc = ovtmTotalBidpIcdc;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMkscShrnIscd() {

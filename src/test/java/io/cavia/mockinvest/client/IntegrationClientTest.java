@@ -12,8 +12,6 @@ public class IntegrationClientTest {
     @Autowired
     RestWebClient restWebClient;
     @Autowired
-    ApiWebSocketHandler apiWebSocketHandler;
-    @Autowired
     ApiWebSocketClient webSocketClient;
 
     @Test

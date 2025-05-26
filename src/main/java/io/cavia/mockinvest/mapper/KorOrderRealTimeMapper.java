@@ -14,10 +14,10 @@ public class KorOrderRealTimeMapper {
      * @param dvs
      * @return
      */
-    public OrderRealTime toEntity(String dvs) {
-        String[] datas = dvs.split("^");
-        datas[0] = datas[0].substring(datas[0].lastIndexOf("|"));
-
+    public OrderRealTime toEntity(String[] datas) {
+        if(datas == null) {
+            throw new RuntimeException("매핑 중 오류 발생: Null이 입력되었습니다.");
+        }
         return new OrderRealTime(
             datas[0],   // mkscShrnIscd
             datas[1],   // bsopHour
@@ -76,7 +76,7 @@ public class KorOrderRealTimeMapper {
             Integer.parseInt(datas[54]),  // totalAskpRsqnIcdc
             Integer.parseInt(datas[55]),  // totalBidpRsqnIcdc
             Integer.parseInt(datas[56]),  // ovtmTotalAskpIcdc
-            Integer.parseInt(datas[57])   // ovtmTotalBidpIcdc
+            Integer.parseInt(datas[57]) // ovtmTotalBidpIcdc
         );
     }
 }

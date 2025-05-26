@@ -2,14 +2,33 @@ package io.cavia.mockinvest.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cavia.mockinvest.mapper.KorOrderRealTimeMapper;
+import io.cavia.mockinvest.mapper.KorStockRealTimeMapper;
+import io.cavia.mockinvest.repository.OrderRealTimeRepository;
+import io.cavia.mockinvest.repository.StockRealTimeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.stream.IntStream;
+
 public class ApiWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private OrderRealTimeRepository orderRealTimeRepository;
+    @Autowired
+    private KorOrderRealTimeMapper korOrderRealTimeMapper;
+    @Autowired
+    private StockRealTimeRepository stockRealTimeRepository;
+    @Autowired
+    private KorStockRealTimeMapper korStockRealTimeMapper;
+
+
+    public ApiWebSocketHandler() {
+    }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -28,7 +47,7 @@ public class ApiWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String receivedData = message.getPayload();
-        System.out.println("서버로부터 메시지 수신: " + receivedData);
+        System.out.println("receivedData: " + receivedData);
 
         if (receivedData.startsWith("{") && receivedData.endsWith("}")) {
             JsonNode rootNode = objectMapper.readTree(receivedData);
@@ -45,8 +64,31 @@ public class ApiWebSocketHandler extends TextWebSocketHandler {
             }
             return;
         }
-
         // TODO 받아온 receivedData 문자열을 분류해서 DB에 저장하는 코드 작성
+        if (receivedData.indexOf("H0STCNT0") == -1) {
+            String[] datas = receivedData.split("\\^");
+            datas[0] = datas[0].substring(datas[0].lastIndexOf("|"));
+            if (datas.length % 59 == 0) {
+                for (int i = 0; i < datas.length; i += 59) {
+                    orderRealTimeRepository.save(korOrderRealTimeMapper.toEntity(
+                        IntStream.rangeClosed(i, i + 58)
+                            .mapToObj(j -> datas[j])
+                            .toArray(String[]::new)));
+                }
+            }
+        } else {
+            String[] datas = receivedData.split("\\^");
+            datas[0] = datas[0].substring(datas[0].lastIndexOf("|"));
+            if (datas.length % 46 == 0) {
+                for (int i = 0; i < datas.length; i += 46) {
+                    stockRealTimeRepository.save(korStockRealTimeMapper.toEntity(
+                        IntStream.rangeClosed(i, i + 45)
+                            .mapToObj(j -> datas[j])
+                            .toArray(String[]::new)));
+                }
+            }
+        }
+
 
     }
 

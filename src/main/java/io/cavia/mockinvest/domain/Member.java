@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name="member")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +17,14 @@ public class Member {
     private String name;
     private String email;
     private String tel;
-    @Column(updatable = false, insertable = false)
+    @Column(updatable = false)
     private LocalDateTime joindate;
+
+    // 회원가입 시 자동으로 현재 날짜 설정
+    @PrePersist
+    protected void onCreate() {
+        this.joindate = LocalDateTime.now();
+    }
 
     public long getId() {
         return id;

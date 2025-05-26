@@ -30,7 +30,7 @@ public class Market {
     private String prdy_vrss_sign;
     @Column(name = "bsrp_nmix_prdy_ctrt")
     private BigDecimal bstpNmixPrdyCtrt;
-=======
+/*
      * 시장별 투자자 매매동향(시세)테이터를 담는 테이블입니다
      * id: pk입니다.
      * ------ 외국인 ------
@@ -118,9 +118,6 @@ public class Market {
      * - etc_corp_shnu_tr_pbmn: 기타 법인 매수2 거래 대금 입니다.
      * - etc_corp_ntby_tr_pbmn: 기타 법인 순매수 거래 대금 입니다.
      */
-    @Column(name = "id")
-    @Id @GeneratedValue
-    private Long id;
     @Column(name = "frgn_seln_vol")
     private String frgnSelnVol;
     @Column(name = "frgn_shnu_vol")

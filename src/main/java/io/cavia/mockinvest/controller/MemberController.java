@@ -1,12 +1,11 @@
 package io.cavia.mockinvest.controller;
 
 import io.cavia.mockinvest.domain.Member;
-import io.cavia.mockinvest.scrvice.MemberService;
+import io.cavia.mockinvest.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
